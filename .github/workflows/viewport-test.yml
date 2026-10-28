@@ -24,3 +24,7 @@ jobs:
         run: cc -std=c99 -Wall -Wextra -Werror -Inative native/test_scale_rgb565.c -o /tmp/test_scale_rgb565
       - name: Run RGB565 scaler regression test
         run: /tmp/test_scale_rgb565
+      - name: Compile PSP framebuffer presentation regression test
+        run: cc -std=c99 -Wall -Wextra -Werror -Inative native/test_psp_framebuffer.c -o /tmp/test_psp_framebuffer
+      - name: Run PSP framebuffer presentation regression test
+        run: /tmp/test_psp_framebuffer
