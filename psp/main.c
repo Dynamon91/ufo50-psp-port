@@ -6,6 +6,7 @@
  */
 #include <pspkernel.h>
 #include <pspdisplay.h>
+#include <pspge.h>
 #include <pspgu.h>
 #include <stdint.h>
 #include "psp_framebuffer.h"
@@ -32,7 +33,7 @@ static int callback_thread(SceSize args, void *argp)
 {
     (void)args; (void)argp;
     int cbid = sceKernelCreateCallback("Exit Callback", exit_callback, NULL);
-    sceKernelRegisterExitCallback(cbid);
+    if (cbid >= 0) sceKernelRegisterExitCallback(cbid);
     sceKernelSleepThreadCB();
     return 0;
 }
@@ -47,18 +48,24 @@ static void setup_callbacks(void)
 int main(void)
 {
     int x, y;
+    void *framebuffer_offset;
     uint16_t *framebuffer;
 
     setup_callbacks();
     sceDisplaySetMode(0, SCREEN_W, SCREEN_H);
 
-    /* PSPSDK allocates a suitably aligned RGB565 buffer in video RAM. */
-    framebuffer = (uint16_t *)guGetStaticVramBuffer(
+    /*
+     * guGetStaticVramBuffer returns an offset relative to VRAM's start.
+     * sceDisplaySetFrameBuf needs the actual address, so add the EDRAM base.
+     */
+    framebuffer_offset = guGetStaticVramBuffer(
         FRAME_PITCH, SCREEN_H, GU_PSM_5650);
-    if (!framebuffer) {
+    if (!framebuffer_offset) {
         sceKernelSleepThread();
         return 1;
     }
+    framebuffer = (uint16_t *)((uintptr_t)sceGeEdramGetAddr() +
+                               (uintptr_t)framebuffer_offset);
 
     for (y = 0; y < LOGICAL_H; ++y) {
         for (x = 0; x < LOGICAL_W; ++x) {
@@ -84,8 +91,7 @@ int main(void)
 
     sceKernelDcacheWritebackAll();
     sceDisplaySetFrameBuf(framebuffer, FRAME_PITCH, PSP_DISPLAY_PIXEL_FORMAT_565,
-                          PSP_DISPLAY_SETBUF_NEXTFRAME);
-    sceDisplayWaitVblankStart();
+                          PSP_DISPLAY_SETBUF_NEXTVSYNC);
 
     /* Keep the rendered pattern visible until the user exits the application. */
     sceKernelSleepThread();
