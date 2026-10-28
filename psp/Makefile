@@ -9,4 +9,5 @@ EXTRA_TARGETS = EBOOT.PBP
 PSP_EBOOT_TITLE = UFO50 PSP Renderer Test
 PSP_EBOOT_ICON =
 
+PSPSDK ?= $(shell psp-config --pspsdk-path)
 include $(PSPSDK)/lib/build.mak
