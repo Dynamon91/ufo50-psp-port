@@ -54,7 +54,7 @@ int main(void)
 
     /* PSPSDK allocates a suitably aligned RGB565 buffer in video RAM. */
     framebuffer = (uint16_t *)guGetStaticVramBuffer(
-        SCREEN_W, SCREEN_H, GU_PSM_5650);
+        FRAME_PITCH, SCREEN_H, GU_PSM_5650);
     if (!framebuffer) {
         sceKernelSleepThread();
         return 1;
@@ -84,7 +84,7 @@ int main(void)
 
     sceKernelDcacheWritebackAll();
     sceDisplaySetFrameBuf(framebuffer, FRAME_PITCH, PSP_DISPLAY_PIXEL_FORMAT_565,
-                          PSP_DISPLAY_SETBUF_IMMEDIATE);
+                          PSP_DISPLAY_SETBUF_NEXTFRAME);
     sceDisplayWaitVblankStart();
 
     /* Keep the rendered pattern visible until the user exits the application. */
