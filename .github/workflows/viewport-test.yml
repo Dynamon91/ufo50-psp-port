@@ -1,20 +1,18 @@
-name: viewport-regression
+name: native-renderer-regression
 
 on:
   push:
     paths:
-      - "native/viewport.h"
-      - "native/test_viewport.c"
+      - "native/**"
       - ".github/workflows/viewport-test.yml"
   pull_request:
     paths:
-      - "native/viewport.h"
-      - "native/test_viewport.c"
+      - "native/**"
       - ".github/workflows/viewport-test.yml"
   workflow_dispatch:
 
 jobs:
-  test-viewport:
+  native-renderer-tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -22,3 +20,7 @@ jobs:
         run: cc -std=c99 -Wall -Wextra -Werror -Inative native/test_viewport.c -o /tmp/test_viewport
       - name: Run viewport regression test
         run: /tmp/test_viewport
+      - name: Compile RGB565 scaler regression test
+        run: cc -std=c99 -Wall -Wextra -Werror -Inative native/test_scale_rgb565.c -o /tmp/test_scale_rgb565
+      - name: Run RGB565 scaler regression test
+        run: /tmp/test_scale_rgb565
