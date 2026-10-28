@@ -21,8 +21,6 @@ typedef struct {
     int logical_width, logical_height;
 } Ufo50Viewport;
 
-static inline int ufo50_min_int(int a, int b) { return a < b ? a : b; }
-
 static inline Ufo50Viewport ufo50_viewport_fit(
     int screen_width, int screen_height,
     int logical_width, int logical_height)
