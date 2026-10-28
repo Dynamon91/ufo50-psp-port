@@ -53,7 +53,7 @@ int main(void)
     sceDisplaySetMode(0, SCREEN_W, SCREEN_H);
 
     /* PSPSDK allocates a suitably aligned RGB565 buffer in video RAM. */
-    framebuffer = (uint16_t *)sceGuGetStaticVramBuffer(
+    framebuffer = (uint16_t *)guGetStaticVramBuffer(
         SCREEN_W, SCREEN_H, GU_PSM_5650);
     if (!framebuffer) {
         sceKernelSleepThread();
