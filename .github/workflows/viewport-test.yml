@@ -1,0 +1,24 @@
+name: viewport-regression
+
+on:
+  push:
+    paths:
+      - "native/viewport.h"
+      - "native/test_viewport.c"
+      - ".github/workflows/viewport-test.yml"
+  pull_request:
+    paths:
+      - "native/viewport.h"
+      - "native/test_viewport.c"
+      - ".github/workflows/viewport-test.yml"
+  workflow_dispatch:
+
+jobs:
+  test-viewport:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile viewport regression test
+        run: cc -std=c99 -Wall -Wextra -Werror -Inative native/test_viewport.c -o /tmp/test_viewport
+      - name: Run viewport regression test
+        run: /tmp/test_viewport
