@@ -20,12 +20,12 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Build EBOOT.PBP with official PSPDEV SDK container
+      - name: Build EBOOT.PBP with PSPDEV SDK
         run: |
           docker run --rm \
-            -v "$PWD:/src" \
-            -w /src/psp \
-            ghcr.io/pspdev/pspsdk:latest \
+            -v "$PWD:/source" \
+            -w /source/psp \
+            pspdev/pspdev:latest \
             sh -lc 'make clean && make'
 
       - name: Verify EBOOT artifact exists
