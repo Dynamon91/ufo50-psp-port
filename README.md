@@ -8,7 +8,7 @@ Work-in-progress native PSP port framework for UFO 50.
 - `native/scale_rgb565.h`: portable C99 nearest-neighbour scaler for RGB565 framebuffer data. Source and destination pitches are expressed in pixels.
 - `native/psp_framebuffer.h`: framebuffer presentation boundary that clears the visible screen to black and scales into a fitted viewport. It accepts the actual framebuffer pitch (often 512 pixels for a 480-pixel visible PSP screen) and has no PSPSDK dependency; the PSP runtime must still supply the correct buffer and present/swap it.
 - `native/test_viewport.c`, `native/test_scale_rgb565.c`, and `native/test_psp_framebuffer.c`: regression tests for viewport geometry, scaling, row pitches, black letterbox bars, and invalid arguments.
-- `.github/workflows/viewport-test.yml`: compiles both tests with `-Wall -Wextra -Werror` and executes them on pushes and pull requests affecting native code.
+- `.github/workflows/viewport-test.yml`: compiles and executes the three native regression tests on pushes and pull requests affecting native code, then repeats them with UndefinedBehaviorSanitizer (UBSan).
 
 Run locally from the repository root:
 
