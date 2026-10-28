@@ -11,7 +11,7 @@ preserving aspect ratio. For this pair of dimensions, the viewport is
 `ufo50_viewport_to_logical()` rejects points in those bars and maps points
 inside the viewport back to logical coordinates.
 
-A small regression test is in `native/test_viewport.c`. With a C compiler,
+A small regression test is in `native/test_viewport.c`, with a GitHub Actions workflow at `.github/workflows/viewport-test.yml` that compiles and runs it on pushes and pull requests affecting these files. To run it locally with a C compiler,
 run it from the repository root:
 
 ```sh
