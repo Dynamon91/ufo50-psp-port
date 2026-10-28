@@ -9,13 +9,13 @@ int main(void)
         0xF800, 0x07E0, 0xAAAA,
         0x001F, 0xFFFF, 0xBBBB
     };
-    uint16_t dst[24];
+    uint16_t dst[48];
     Ufo50Viewport v = ufo50_viewport_fit(6, 6, 2, 2);
     int y, x;
 
     assert(v.x == 0 && v.y == 0 && v.width == 6 && v.height == 6);
     /* Clear destination to detect untouched padding/invalid areas. */
-    for (y = 0; y < 24; ++y) dst[y] = 0x1234;
+    for (y = 0; y < 48; ++y) dst[y] = 0x1234;
 
     /* Use a 2x2 logical source and a 6x6 destination, row pitch 4/8. */
     assert(ufo50_scale_rgb565(src, 2, 2, 3, dst, 6, 6, 8, &v) == 1);
