@@ -21,6 +21,10 @@ cc -std=c99 -Wall -Wextra -Werror -Inative native/test_psp_framebuffer.c -o /tmp
 /tmp/test_psp_framebuffer
 ```
 
+## PSP framebuffer smoke-test target
+
+A minimal PSPSDK application is available in `psp/`. It initializes the PSP display, generates a 384x216 RGB565 gradient, and presents it through the shared framebuffer helper. Build it with an installed PSPDEV toolchain by running `cd psp && make`; the expected output is `psp/EBOOT.PBP`. This target is a graphics-path smoke test only, not the UFO 50 game port. It has been committed but has **not yet been compiled with PSPSDK or tested in PPSSPP/on hardware**.
+
 ## Integration status
 
 These are standalone rendering foundations and are **not yet wired into a game runtime or the PSP display-list/framebuffer path**. The new presentation helper is an explicit framebuffer boundary, but it does not acquire PSP VRAM, configure the GU, flush caches, or swap/display buffers; those require the actual runtime integration. No EBOOT.PBP build, PPSSPP test, or hardware test is claimed. This repository currently does not establish that any of the 50 games are ported. The next integration step is to connect the scaler to the actual PSP framebuffer/render loop and confirm its pixel format and buffer pitch.
