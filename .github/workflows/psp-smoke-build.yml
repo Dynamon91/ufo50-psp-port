@@ -26,7 +26,7 @@ jobs:
             -v "$PWD:/source" \
             -w /source/psp \
             pspdev/pspdev:latest \
-            sh -lc 'make clean && make'
+            sh -c 'make clean && make'
 
       - name: Verify EBOOT artifact exists
         run: test -s psp/EBOOT.PBP
